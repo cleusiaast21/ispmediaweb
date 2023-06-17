@@ -10,6 +10,7 @@ import artist3 from '../../src/assets/artist3.jpg';
 import profilePicture from '../../src/assets/artist4.webp';
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 import logoSidebar from '../assets/logoSidebar.png'
+import { IoHomeOutline, IoRadioOutline, IoFilmOutline, IoCloudUploadOutline } from "react-icons/io5";
 
 function VideoPlayer({ video, onClose }) {
     return (
@@ -26,7 +27,7 @@ function VideoPlayer({ video, onClose }) {
 
 function Home() {
 
-    
+
 
     const [isPlaying, setIsPlaying] = useState(false); // State for play/pause toggle
     const [selectedVideo, setSelectedVideo] = useState(null); // State for selected video
@@ -197,12 +198,12 @@ function Home() {
     return (
         <div className="music-app">
             <div className="sidebar">
-            <img src={logoSidebar} className="logo-sidebar" alt="Owner's Photo" />
+                <img src={logoSidebar} className="logo-sidebar" alt="Owner's Photo" />
 
-                <MdHome className="icon" />
-                <MdRadio className="icon" />
-                <MdVideocam className="icon" />
-                <MdSettings className="icon" />
+                <IoHomeOutline className="icon" />
+                <IoRadioOutline className="icon" />
+                <IoFilmOutline className="icon" />
+                <IoCloudUploadOutline className="icon" />
             </div>
 
             <div className="main-content">
