@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Home.css';
 import cover from '../../src/assets/image3.jpg';
 import cover1 from '../../src/assets/image.jpg';
 import cover2 from '../../src/assets/image2.jpg';
-import { MdHome, MdRadio, MdVideocam, MdSettings, MdPlayCircleFilled, MdPauseCircleFilled, MdSkipNext, MdSkipPrevious, MdShare } from 'react-icons/md';
+import { MdPlayCircleFilled, MdPauseCircleFilled, MdSkipNext, MdSkipPrevious, MdShare } from 'react-icons/md';
 import artist1 from '../../src/assets/artist1.jpg';
 import artist2 from '../../src/assets/artist2.jpg';
 import artist3 from '../../src/assets/artist3.jpg';
@@ -195,6 +195,28 @@ function Home() {
         },
     ];
 
+    useEffect(() => {
+        // Pause the song when isPlaying becomes false
+        if (!isPlaying) {
+          const audioElement = document.getElementById('audio');
+          if (audioElement) {
+            audioElement.pause();
+          }
+        }
+      }, [isPlaying]);
+    
+      useEffect(() => {
+        // Play the selected song when currentSong changes
+        if (currentSong) {
+          const audioElement = document.getElementById('audio');
+          audioElement.src = currentSong.audioUrl;
+          audioElement.play();
+      
+          // Update the currentTime state using onTimeUpdate event
+          audioElement.onTimeUpdate = () => setCurrentTime(audioElement.currentTime);
+        }
+      }, [currentSong]);
+
     return (
         <div className="music-app">
             <div className="sidebar">
@@ -294,6 +316,13 @@ function Home() {
 
 
                 </div>
+
+                {currentSong && (
+                    <audio id="audio" onTimeUpdate={() => setCurrentTime(document.getElementById('audio').currentTime)}>
+                        <source src={currentSong.audioUrl} type="audio/mpeg" />
+                        Your browser does not support the audio element.
+                    </audio>
+                )}
 
             </div>
 
