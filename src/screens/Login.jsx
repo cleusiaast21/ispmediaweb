@@ -3,12 +3,12 @@ import './Login.css';
 import logo from '../../src/assets/logo.png';
 import { Link } from 'react-router-dom';
 
-
 export default function Login () {
   return (
     
     <div className="container">
       <div className="background-image">
+
         <div className="login-container">
           <div className="left-side">
             <div className="logo">

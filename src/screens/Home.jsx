@@ -9,8 +9,10 @@ import artist2 from '../../src/assets/artist2.jpg';
 import artist3 from '../../src/assets/artist3.jpg';
 import profilePicture from '../../src/assets/artist4.webp';
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
-import logoSidebar from '../assets/logoSidebar.png'
-import { IoHomeOutline, IoRadioOutline, IoFilmOutline, IoCloudUploadOutline } from "react-icons/io5";
+import Sidebar from '../components/Sidebar.jsx'
+
+
+
 
 function VideoPlayer({ video, onClose }) {
     return (
@@ -28,12 +30,12 @@ function VideoPlayer({ video, onClose }) {
 function Home() {
 
 
-
     const [isPlaying, setIsPlaying] = useState(false); // State for play/pause toggle
     const [selectedVideo, setSelectedVideo] = useState(null); // State for selected video
     const [currentSong, setCurrentSong] = useState(null); // State for current song
     const [currentTime, setCurrentTime] = useState(0); // State for current playback time
     const [isLiked, setIsLiked] = useState(false); // State for heart icon
+    const [comments, setComments] = useState([]);
 
     const handleVideoClick = (video) => {
         setSelectedVideo(video);
@@ -60,26 +62,35 @@ function Home() {
 
     const handleSongClick = (song) => {
         try {
-          if (currentSong === song) {
-            setIsPlaying(!isPlaying);
-          } else {
-            setCurrentSong(song);
-            setIsPlaying(true);
-            setCurrentTime(0);
-            const audioElement = document.getElementById('audio');
-            if (audioElement && !audioElement.src) {
-              audioElement.src = song.audioUrl;
-              audioElement.load();
+            if (currentSong === song) {
+                setIsPlaying(!isPlaying);
+            } else {
+                setCurrentSong(song);
+                setIsPlaying(true);
+                setCurrentTime(0);
+                const audioElement = document.getElementById('audio');
+                if (audioElement && !audioElement.src) {
+                    audioElement.src = song.audioUrl;
+                    audioElement.load();
+                }
             }
-          }
         } catch (error) {
-          console.error('An error occurred:', error);
+            console.error('An error occurred:', error);
         }
-      };
+    };
 
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
     };
+
+    const handleCommentSubmit = (e) => {
+        e.preventDefault();
+        const commentInput = e.target.elements.comment;
+        const newComment = commentInput.value;
+        setComments([...comments, newComment]);
+        commentInput.value = '';
+    };
+
 
     const videos = [
         {
@@ -240,14 +251,8 @@ function Home() {
 
     return (
         <div className="music-app">
-            <div className="sidebar">
-                <img src={logoSidebar} className="logo-sidebar" alt="Owner's Photo" />
 
-                <IoHomeOutline className="icon" />
-                <IoRadioOutline className="icon" />
-                <IoFilmOutline className="icon" />
-                <IoCloudUploadOutline className="icon" />
-            </div>
+            <Sidebar></Sidebar>
 
             <div className="main-content">
                 <div className="top-bar">
@@ -328,11 +333,11 @@ function Home() {
 
                 <div className="share-like-icons">
 
-                    <MdShare className="icon" />
+                    <MdShare className="icon-home" />
                     {isLiked ? (
-                        <MdFavorite className="icon filled" onClick={handleLikeClick} />
+                        <MdFavorite className="icon-home" onClick={handleLikeClick} />
                     ) : (
-                        <MdFavoriteBorder className="icon outline" onClick={handleLikeClick} />
+                        <MdFavoriteBorder className="icon-home" onClick={handleLikeClick} />
                     )}
 
 
@@ -347,7 +352,24 @@ function Home() {
 
             </div>
 
-            {selectedVideo && <VideoPlayer video={selectedVideo} onClose={handleVideoClose} />}
+            {selectedVideo && (
+                <>
+                    <VideoPlayer video={selectedVideo} onClose={handleVideoClose} />
+                    <div className="comment-section">
+                        <h3>Comentários</h3>
+                        <ul>
+                            {comments.map((comment, index) => (
+                                <li key={index}>{comment}</li>
+                            ))}
+                        </ul>
+                        <form onSubmit={handleCommentSubmit}>
+                            <input type="text" name="comment" placeholder="Comente..." />
+                            <button type="submit">Enviar</button>
+                        </form>
+                    </div>
+                </>
+            )}
+
         </div>
     );
 }
