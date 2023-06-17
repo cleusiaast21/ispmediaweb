@@ -46,13 +46,36 @@ function Home() {
     };
 
     const handleSongPlayPause = () => {
-        setIsPlaying(!isPlaying);
+        if (isPlaying) {
+            setIsPlaying(false);
+        } else {
+            setIsPlaying(true);
+            const audioElement = document.getElementById('audio');
+            if (audioElement) {
+                audioElement.currentTime = currentTime;
+                audioElement.play();
+            }
+        }
     };
 
     const handleSongClick = (song) => {
-        setCurrentSong(song);
-        setIsPlaying(true);
-    };
+        try {
+          if (currentSong === song) {
+            setIsPlaying(!isPlaying);
+          } else {
+            setCurrentSong(song);
+            setIsPlaying(true);
+            setCurrentTime(0);
+            const audioElement = document.getElementById('audio');
+            if (audioElement && !audioElement.src) {
+              audioElement.src = song.audioUrl;
+              audioElement.load();
+            }
+          }
+        } catch (error) {
+          console.error('An error occurred:', error);
+        }
+      };
 
     const handleLikeClick = () => {
         setIsLiked(!isLiked);
@@ -145,7 +168,7 @@ function Home() {
             id: 3,
             title: 'Music Title 3',
             artist: 'Artist Name 3',
-            audioUrl: require('../../src/assets/rules.mp3'),
+            audioUrl: require('../../src/assets/comet.mp3'),
 
             cover: cover,
         },
@@ -153,7 +176,7 @@ function Home() {
             id: 4,
             title: 'Music Title 1',
             artist: 'Artist Name 1',
-            audioUrl: require('../../src/assets/boo.mp3'),
+            audioUrl: require('../../src/assets/bloody.mp3'),
 
             cover: profilePicture,
         },
@@ -161,7 +184,7 @@ function Home() {
             id: 5,
             title: 'Music Title 2',
             artist: 'Artist Name 2',
-            audioUrl: require('../../src/assets/rules.mp3'),
+            audioUrl: require('../../src/assets/art.mp3'),
 
             cover: cover1,
         },
@@ -196,26 +219,24 @@ function Home() {
     ];
 
     useEffect(() => {
-        // Pause the song when isPlaying becomes false
         if (!isPlaying) {
-          const audioElement = document.getElementById('audio');
-          if (audioElement) {
-            audioElement.pause();
-          }
+            const audioElement = document.getElementById('audio');
+            if (audioElement) {
+                audioElement.pause();
+            }
         }
-      }, [isPlaying]);
-    
-      useEffect(() => {
-        // Play the selected song when currentSong changes
+    }, [isPlaying]);
+
+    useEffect(() => {
         if (currentSong) {
-          const audioElement = document.getElementById('audio');
-          audioElement.src = currentSong.audioUrl;
-          audioElement.play();
-      
-          // Update the currentTime state using onTimeUpdate event
-          audioElement.onTimeUpdate = () => setCurrentTime(audioElement.currentTime);
+            const audioElement = document.getElementById('audio');
+            audioElement.src = currentSong.audioUrl;
+            audioElement.currentTime = currentTime;
+            audioElement.play();
+
+            audioElement.onTimeUpdate = () => setCurrentTime(audioElement.currentTime);
         }
-      }, [currentSong]);
+    }, [currentSong]);
 
     return (
         <div className="music-app">
