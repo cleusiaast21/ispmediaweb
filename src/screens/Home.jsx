@@ -9,7 +9,7 @@ import artist2 from '../../src/assets/artist2.jpg';
 import artist3 from '../../src/assets/artist3.jpg';
 import profilePicture from '../../src/assets/artist4.webp';
 import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
-
+import logoSidebar from '../assets/logoSidebar.png'
 
 function VideoPlayer({ video, onClose }) {
     return (
@@ -197,7 +197,8 @@ function Home() {
     return (
         <div className="music-app">
             <div className="sidebar">
-                <MdHome className="icon" />
+            <img src={logoSidebar} className="logo-sidebar" alt="Owner's Photo" />
+
                 <MdHome className="icon" />
                 <MdRadio className="icon" />
                 <MdVideocam className="icon" />
