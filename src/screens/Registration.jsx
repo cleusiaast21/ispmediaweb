@@ -1,6 +1,7 @@
 import React from 'react';
 import './Registration.css'; 
 import logo from '../../src/assets/logo.png';
+import { Link } from 'react-router-dom';
 
 export default function Login () {
   return (
@@ -22,7 +23,7 @@ export default function Login () {
                 <input type="text" placeholder="Sobrenome" />
                 <input type="password" placeholder="Password" />
                 <input type="password" placeholder="Confirmar password" />
-                <button type="submit">Register</button>
+                <button type="submit"><Link to="/Home">Registrar</Link></button>
               </form>
             </div>
           </div>

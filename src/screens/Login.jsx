@@ -18,11 +18,11 @@ export default function Login () {
           <div className="right-side">
             <div className="login-form">
               <form>
-                <p className="welcome">Bem-Vindo ao ISPMEDIA!</p>
+                <p className="welcome">Bem-Vindo ao Ispmedia!</p>
                 <input type="text" placeholder="Username" />
                 <input type="password" placeholder="Password" />
                 <button type="submit"><Link to="/Home">Login</Link></button> 
-                <p className="">Não tem conta?<Link to="/Registration">Registrar</Link></p>
+                <p className="">Não tem conta? <Link to="/Registration">Registrar</Link></p>
               </form>
             </div>
           </div>
