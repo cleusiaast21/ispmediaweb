@@ -3,14 +3,12 @@ import './Home.css';
 import cover from '../../src/assets/image3.jpg';
 import cover1 from '../../src/assets/image.jpg';
 import cover2 from '../../src/assets/image2.jpg';
-import { MdHome, MdRadio, MdVideocam, MdSettings, MdPlayCircleFilled, MdPauseCircleFilled, MdSkipNext, MdSkipPrevious, MdShare, MdFavorite } from 'react-icons/md';
+import { MdHome, MdRadio, MdVideocam, MdSettings, MdPlayCircleFilled, MdPauseCircleFilled, MdSkipNext, MdSkipPrevious, MdShare } from 'react-icons/md';
 import artist1 from '../../src/assets/artist1.jpg';
 import artist2 from '../../src/assets/artist2.jpg';
 import artist3 from '../../src/assets/artist3.jpg';
-import profilePicture from '../../src/assets/artist4.webp'; // Import the owner's photo
-import { FaCommentAlt } from 'react-icons/fa';
-
-
+import profilePicture from '../../src/assets/artist4.webp';
+import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 
 
 function VideoPlayer({ video, onClose }) {
@@ -34,6 +32,7 @@ function Home() {
     const [selectedVideo, setSelectedVideo] = useState(null); // State for selected video
     const [currentSong, setCurrentSong] = useState(null); // State for current song
     const [currentTime, setCurrentTime] = useState(0); // State for current playback time
+    const [isLiked, setIsLiked] = useState(false); // State for heart icon
 
     const handleVideoClick = (video) => {
         setSelectedVideo(video);
@@ -52,6 +51,10 @@ function Home() {
     const handleSongClick = (song) => {
         setCurrentSong(song);
         setIsPlaying(true);
+    };
+
+    const handleLikeClick = () => {
+        setIsLiked(!isLiked);
     };
 
     const videos = [
@@ -281,7 +284,11 @@ function Home() {
                 <div className="share-like-icons">
 
                     <MdShare className="icon" />
-                    <MdFavorite className="icon" />
+                    {isLiked ? (
+                        <MdFavorite className="icon filled" onClick={handleLikeClick} />
+                    ) : (
+                        <MdFavoriteBorder className="icon outline" onClick={handleLikeClick} />
+                    )}
 
 
                 </div>
