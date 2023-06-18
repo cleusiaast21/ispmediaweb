@@ -12,8 +12,6 @@ import { MdFavoriteBorder, MdFavorite } from 'react-icons/md';
 import Sidebar from '../components/Sidebar.jsx'
 
 
-
-
 function VideoPlayer({ video, onClose }) {
     return (
         <div className="video-player-container" onClick={onClose}>
@@ -36,28 +34,56 @@ function Home() {
     const [currentTime, setCurrentTime] = useState(0); // State for current playback time
     const [isLiked, setIsLiked] = useState(false); // State for heart icon
     const [comments, setComments] = useState([]);
+    const [duration, setDuration] = useState(0); // State for the duration of the current song
+
+    const getAudioDuration = () => {
+        if (currentSong) {
+          const audioElement = document.getElementById('audio');
+          if (audioElement) {
+            return audioElement.duration;
+          }
+        }
+        return 0;
+      };
 
     const handleVideoClick = (video) => {
         setSelectedVideo(video);
-        setIsPlaying(true);
+        setIsPlaying(false);
     };
 
     const handleVideoClose = () => {
         setSelectedVideo(null);
-        setIsPlaying(false);
+        setIsPlaying(true);
+    };
+
+    const formatTime = (time) => {
+        const minutes = Math.floor(time / 60);
+        const seconds = Math.floor(time % 60);
+        return `${minutes < 10 ? '0' + minutes : minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
     };
 
     const handleSongPlayPause = () => {
-        if (isPlaying) {
-            setIsPlaying(false);
-        } else {
-            setIsPlaying(true);
-            const audioElement = document.getElementById('audio');
-            if (audioElement) {
-                audioElement.currentTime = currentTime;
-                audioElement.play();
+
+        try {
+
+            if (isPlaying) {
+                setIsPlaying(false);
+            } else {
+                setIsPlaying(true);
+
+                if (document.getElementById('audio')) {
+
+                    const audioElement = document.getElementById('audio');
+
+                    audioElement.currentTime = currentTime;
+                    audioElement.play();
+                    audioElement.ondurationchange = () => setDuration(audioElement.duration);
+                }
             }
+        } catch (error) {
+            console.error('An error occurred:', error);
         }
+
     };
 
     const handleSongClick = (song) => {
@@ -141,16 +167,19 @@ function Home() {
         {
             id: 1,
             title: 'Radio Station 1',
+            audioUrl: "https://radios.justweb.pt/8050/stream/?1685627470876",
             cover: cover1,
         },
         {
             id: 2,
             title: 'Radio Station 2',
+            audioUrl: "https://radios.vpn.sapo.pt/AO/radio1.mp3",
             cover: cover1,
         },
         {
             id: 3,
             title: 'Radio Station 3',
+            audioUrl: "https://radios.vpn.sapo.pt/AO/radio14.mp3?1685629053605",
             cover: cover1,
         },
         {
@@ -172,7 +201,7 @@ function Home() {
             id: 2,
             title: 'Music Title 2',
             artist: 'Artist Name 2',
-            audioUrl: require('../../src/assets/boo.mp3'),
+            audioUrl: require('../../src/assets/comet.mp3'),
             cover: cover2,
         },
         {
@@ -328,6 +357,10 @@ function Home() {
                     <div className="song-text">
                         <p className="song-artist">{currentSong?.artist}</p>
                         <p className="song-name">{currentSong?.title}</p>
+                    </div>
+                    <div className="song-duration">
+                        <p className="song-name">{formatTime(currentTime)}</p>
+                        <p className="song-name">{formatTime(getAudioDuration())}</p>
                     </div>
                 </div>
 

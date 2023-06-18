@@ -65,11 +65,9 @@
     border-radius: 20px;
     border: 2px solid #e02c51;
   }
+
   
-  .login-form input:focus {
-    border-color: #fe496c !important;
-  }
-  
+
   .login-form button {
     width: 100px;
     padding: 8px;
