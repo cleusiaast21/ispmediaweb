@@ -4,6 +4,7 @@ import './App.css';
 import Login from '../src/screens/Login.jsx'
 import Registration from '../src/screens/Registration.jsx'
 import Home from '../src/screens/Home.jsx'
+import Upload from '../src/screens/Upload.jsx'
 
 
 export default function App() {
@@ -14,6 +15,8 @@ export default function App() {
         <Route path="/" element={<Login/>} />
         <Route path="/Registration" element={<Registration/>} />
         <Route path="/Home" element={<Home/>} />
+        <Route path="/Home" element={<Home/>} />
+
 
         
       </Routes>
