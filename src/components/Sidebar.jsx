@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import './Sidebar.css';
-import { IoHomeOutline, IoRadioOutline, IoFilmOutline, IoCloudUploadOutline } from "react-icons/io5";
+import { IoHomeOutline, IoRadioOutline, IoFilmOutline, IoMusicalNotesOutline } from "react-icons/io5";
 import logoSidebar from '../assets/logoSidebar.png';
 import { Link } from 'react-router-dom';
-
-
 
 export default function Sidebar() {
   const [activeIcon, setActiveIcon] = useState(null);
@@ -24,19 +22,18 @@ export default function Sidebar() {
         className={getIconClassName('home')}
         onClick={() => handleIconClick('home')}
       />
+      
+      <IoFilmOutline
+        className={getIconClassName('film')}
+        onClick={() => handleIconClick('film')}
+      />
         <IoRadioOutline
         className={getIconClassName('radio')}
         onClick={() => handleIconClick('radio')}
       />
-        <IoFilmOutline
-        className={getIconClassName('film')}
-        onClick={() => handleIconClick('film')}
-      />
-      <Link to="/">
-        <IoCloudUploadOutline
+        <IoMusicalNotesOutline
         className={getIconClassName('upload')}
-        onClick={() => handleIconClick('upload')}
-      /></Link>
+        onClick={() => handleIconClick('upload')}/>
     </div>
   );
 }
