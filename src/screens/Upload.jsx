@@ -59,31 +59,17 @@ export default function Upload() {
 
 
             <div className="profile-bar">
-                <h1>Upload</h1>
                 <img src={cover2} className="profile-picture" alt="Owner's Photo" />
             </div>
 
             <div className="content-container">
 
-
-                <div className="model-container">
-
-                    <img src={model} className="model-female" alt="model's Photo" />
-                </div>
-
                 <div className="upload-form">
                     <form onSubmit={handleSubmit}>
-                        <label htmlFor="name">Name:</label>
-                        <input type="text" id="name" value={name} onChange={handleNameChange} required />
-                        <label htmlFor="description">Description:</label>
-                        <textarea
-                            id="description"
-                            value={description}
-                            onChange={handleDescriptionChange}
-                            required
-                        ></textarea>
-                        <label htmlFor="cover">Cover Image:</label>
+
+                    <label htmlFor="cover">Cover Image:</label>
                         <input
+
                             type="file"
                             id="cover"
                             accept="image/*"
@@ -95,6 +81,17 @@ export default function Upload() {
                                 <img src={coverPreview} className="cover-preview" alt="Cover Preview" />
                             </div>
                         )}
+                        
+                        <label htmlFor="name">Name:</label>
+                        <input type="text" id="name" value={name} onChange={handleNameChange} required />
+                        <label htmlFor="description">Description:</label>
+                        <textarea
+                            id="description"
+                            value={description}
+                            onChange={handleDescriptionChange}
+                            required
+                        ></textarea>
+                        
                         <label htmlFor="file">File (Audio/Video):</label>
                         <input
                             type="file"
@@ -113,6 +110,14 @@ export default function Upload() {
                         <button type="submit">Submit</button>
                     </form>
                 </div>
+
+
+                <div className="model-container">
+
+                    <img src={model} className="model-female" alt="model's Photo" />
+                </div>
+
+
             </div>
 
         </div>
