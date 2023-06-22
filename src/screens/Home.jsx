@@ -35,16 +35,18 @@ function Home() {
     const [isLiked, setIsLiked] = useState(false); // State for heart icon
     const [comments, setComments] = useState([]);
     const [duration, setDuration] = useState(0); // State for the duration of the current song
+    const [currentRadioStation, setCurrentRadioStation] = useState(null); // State for current radio station
+
 
     const getAudioDuration = () => {
         if (currentSong) {
-          const audioElement = document.getElementById('audio');
-          if (audioElement) {
-            return audioElement.duration;
-          }
+            const audioElement = document.getElementById('audio');
+            if (audioElement) {
+                return audioElement.duration;
+            }
         }
         return 0;
-      };
+    };
 
     const handleVideoClick = (video) => {
         setSelectedVideo(video);
@@ -80,10 +82,32 @@ function Home() {
                     audioElement.ondurationchange = () => setDuration(audioElement.duration);
                 }
             }
+            setCurrentRadioStation(null); // Reset the current radio station when a song is clicked
+
         } catch (error) {
             console.error('An error occurred:', error);
         }
 
+    };
+
+    const handleRadioClick = (station) => {
+        try {
+            if (currentRadioStation === station) {
+                setIsPlaying(!isPlaying);
+            } else {
+                setCurrentRadioStation(station);
+                setIsPlaying(true);
+                setCurrentTime(0);
+                const audioElement = document.getElementById('audio');
+                if (audioElement) {
+                    audioElement.src = station.audioUrl;
+                    audioElement.load();
+                }
+            }
+            setCurrentSong(null); // Reset the current song when a radio station is clicked
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
     };
 
     const handleSongClick = (song) => {
@@ -316,7 +340,7 @@ function Home() {
                     ))}
                 </div>
 
-                <h2>Recommended Artists</h2>
+                <h2>Artistas Recomendados</h2>
                 <div className="artist-section">
                     {artists.map((artist) => (
                         <div className="artist" key={artist.id}>
@@ -326,10 +350,10 @@ function Home() {
                     ))}
                 </div>
 
-                <h2>Estações de rádio</h2>
+                <h2>Estações de Rádio</h2>
                 <div className="radio-section">
                     {radioStations.map((station) => (
-                        <div className="radio" key={station.id}>
+                        <div className={`radio ${currentRadioStation === station ? 'active' : ''}`} key={station.id} onClick={() => handleRadioClick(station)}>
                             <img src={station.cover} alt="Radio Station Cover" />
                             <p className="station-title">{station.title}</p>
                         </div>
@@ -372,7 +396,6 @@ function Home() {
                     ) : (
                         <MdFavoriteBorder className="icon-home" onClick={handleLikeClick} />
                     )}
-
 
                 </div>
 
